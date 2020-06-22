@@ -1,0 +1,27 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Products' : ''"
+        [routerLink]="'/products'" nzMatchRouter>
+        <i nz-icon nzType="insert-row-above"></i>
+        <span>Products</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></i>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
+      
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+
+    </nz-content>
+    <nz-footer>ramartinez7 / angular-observable-store</nz-footer>
+  </nz-layout>
+</nz-layout>

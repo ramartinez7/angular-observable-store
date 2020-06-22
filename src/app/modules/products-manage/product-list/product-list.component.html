@@ -1,0 +1,24 @@
+<nz-table #basicTable [nzData]="listOfData" [nzPageSize]="3">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Detail</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.Name }}</td>
+      <td>{{ !data.Detail || (data.Detail && data.Detail === '') ? 'No detail' : data.Detail }}</td>
+      <td>{{ data.Price }}</td>
+      <td>{{ data.Stock }}</td>
+      <td>
+        <a>Update</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

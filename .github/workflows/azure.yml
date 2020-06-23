@@ -38,6 +38,7 @@ jobs:
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
+        npm ci
         npm install
         npm i -g @angular/cli
         npm run build --prod --if-present

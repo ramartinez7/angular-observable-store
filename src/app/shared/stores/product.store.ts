@@ -1,4 +1,3 @@
-import { AppState } from './../states/app.state';
 import { Product } from 'src/app/shared/entities';
 import { ProductState } from './../states/product.state';
 import { EntityStore } from 'rxjs-reactive-state';

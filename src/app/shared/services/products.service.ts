@@ -1,5 +1,5 @@
 import { Product } from 'src/app/shared/entities';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()

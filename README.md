@@ -1,6 +1,13 @@
 # Angular Observable Store
 
-RxJS powered state management for Angular applications implementing Observable Store + Facades 
+> RxJS powered state management for Reactive Angular applications implementing Observable Store + Facades 
+
+Starting point to develop reactive applications using the Observable Store + Facades pattern and NG-ZORRO for UI.
+
+<hr />
+
+![Build Status](https://github.com/ramartinez7/angular-observable-store/workflows/.github/workflows/azure.yml/badge.svg)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Development server
 

@@ -1,4 +1,4 @@
-<nz-table #basicTable [nzData]="listOfData" [nzPageSize]="3">
+<nz-table #basicTable [nzData]="listOfData | async" [nzPageSize]="5" [nzLoading]="gettingData">
   <thead>
     <tr>
       <th>Name</th>

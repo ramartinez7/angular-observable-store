@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  logState: false
+  urlApi: 'https://full-api.azurewebsites.net/api/',
+  logState: true
 };

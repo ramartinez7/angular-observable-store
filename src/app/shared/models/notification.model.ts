@@ -9,10 +9,10 @@ export class Notification {
 }
 
 export enum NotificationType {
-  INFO = 'INFO',
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-  WARNING = 'WARNING'
+  INFO = 'info',
+  SUCCESS = 'success',
+  ERROR = 'error',
+  WARNING = 'warning'
 }
 
 export enum PriorityType {

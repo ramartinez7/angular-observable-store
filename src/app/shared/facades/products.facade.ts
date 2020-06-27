@@ -1,0 +1,92 @@
+import { Notification, NotificationType } from './../models/notification.model';
+import { AppStore } from './../stores/app.store';
+import { ProductService } from './../services/products.service';
+import { ProductActions } from './../actions/product.action';
+import { Product } from './../entities/product.entity';
+import { ProductStore } from './../stores/product.store';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Status } from 'rxjs-reactive-state';
+import { switchMap } from 'rxjs/operators';
+
+@Injectable()
+export class ProductsFacade {
+
+  constructor(private store: ProductStore, private service: ProductService, private appStore: AppStore) { }
+
+  add = (product: Product) => {
+    this.store.setAction(ProductActions.CREATE);
+
+    this.service.add(product)
+    .pipe(
+      switchMap(
+        (id) => {
+          return this.service.getById(id);
+        }
+      )
+    )
+    .subscribe(
+      (response: Product) => {
+        this.store.setStatus(Status.SUCCESS);
+        this.store.add(response);
+      },
+      this.handleError
+    );
+  }
+
+  updateById = (id: number, product: Product): void => {
+    this.store.setAction(ProductActions.UPDATE);
+
+    this.service.update(id, product).subscribe(
+      () => {
+        this.store.setStatus(Status.SUCCESS);
+        this.store.updateById(id, product);
+      },
+      this.handleError
+    );
+  }
+
+  deleteById = (id: number): void => {
+    this.store.setAction(ProductActions.DELETE);
+
+    this.service.delete(id).subscribe(
+      () => {
+        this.store.setStatus(Status.SUCCESS);
+        this.store.deleteById(id);
+      },
+      this.handleError
+    );
+  }
+
+  setEntities = () => {
+    this.store.setAction(ProductActions.GET_ALL);
+
+    this.service.getAll().subscribe(
+      (entities: Product[]) => {
+        this.store.setStatus(Status.SUCCESS);
+        this.store.setEntities(entities);
+      },
+      this.handleError
+    );
+  }
+
+  setSelected = (id: number): void => this.store.setSelected(id);
+
+  getAll$ = (): Observable<Product[]> => this.store.getAll$();
+
+  getSelected$ = (): Observable<Product> => this.store.getSelected$();
+
+  handleError = (error: any) => {
+    this.store.setStatus(Status.FAILED);
+    this.store.setErrors(error);
+
+    const notification = new Notification(NotificationType.ERROR, error.message);
+    this.appStore.setNotification(notification);
+  }
+
+  getAction$ = () => this.store.getAction$();
+
+  getStatus$ = () => this.store.getStatus$();
+
+}

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlApi: '',
+  urlApi: 'https://full-api.azurewebsites.net/api/',
   logState: true
 };
 

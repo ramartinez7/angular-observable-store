@@ -1,3 +1,5 @@
+import { ProductsFacade } from './../../shared/facades/products.facade';
+import { ProductService } from './../../shared/services/products.service';
 import { ProductStore } from './../../shared/stores/product.store';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +17,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
   ],
   providers: [
-    ProductStore
+    ProductStore,
+    ProductService,
+    ProductsFacade
   ]
 })
 export class ProductsManageModule { }

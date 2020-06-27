@@ -13,14 +13,14 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getAll = () => this.http.get<Product[]>('products', { headers: this.headers });
+  getAll = () => this.http.get<Product[]>('product', { headers: this.headers });
 
-  getById = (id: number) => this.http.get<Product>(`products/${id}`, { headers: this.headers });
+  getById = (id: number) => this.http.get<Product>(`product/${id}`, { headers: this.headers });
 
-  add = (product: Product) => this.http.post<Product>('products', product, { headers: this.headers });
+  add = (product: Product) => this.http.post<number>('product', product, { headers: this.headers });
 
-  update = (id: number, product: Product) => this.http.put(`products/${id}`, product, {headers: this.headers});
+  update = (id: number, product: Product) => this.http.put(`product/${id}`, product, {headers: this.headers});
 
-  delete = (id: number) => this.http.delete(`products/${id}`, { headers: this.headers });
+  delete = (id: number) => this.http.delete(`product/${id}`, { headers: this.headers });
 
 }

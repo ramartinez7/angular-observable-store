@@ -1,40 +1,26 @@
-.trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
+.priority-1, .priority-2, .priority-3 {
+  display: table-cell;
 }
 
-.trigger:hover {
-  color: #1890ff;
+@media screen and (max-width: 1100px) {
+  .priority-1 {
+    display: none;
+  }
 }
 
-.logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
+@media screen and (max-width: 992px) {
+  .priority-1, .priority-2 {
+    display: none;
+  }
 }
 
-nz-header {
-  background: #fff;
-  padding: 0;
+@media screen and (max-width: 700px) {
+  .priority-1, .priority-2, .priority-3 {
+    display: none;
+  }
 }
 
-nz-content {
-  margin: 0 16px;
-}
-
-nz-breadcrumb {
-  margin: 16px 0;
-}
-
-.inner-content {
-  padding: 24px;
-  background: #fff;
-  min-height: 360px;
-}
-
-nz-footer {
-  text-align: center;
+[nz-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
 }

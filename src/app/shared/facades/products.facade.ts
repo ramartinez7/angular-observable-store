@@ -1,4 +1,4 @@
-import { Notification, NotificationType } from './../models/notification.model';
+import { Notification, NotificationType, PriorityType } from './../models/notification.model';
 import { AppStore } from './../stores/app.store';
 import { ProductService } from './../services/products.service';
 import { ProductActions } from './../actions/product.action';
@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Status } from 'rxjs-reactive-state';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, finalize } from 'rxjs/operators';
 
 @Injectable()
 export class ProductsFacade {
@@ -30,6 +30,9 @@ export class ProductsFacade {
       (response: Product) => {
         this.store.setStatus(Status.SUCCESS);
         this.store.add(response);
+
+        const notification = new Notification(NotificationType.SUCCESS, 'Product added');
+        this.notify(notification);
       },
       this.handleError
     );
@@ -42,18 +45,28 @@ export class ProductsFacade {
       () => {
         this.store.setStatus(Status.SUCCESS);
         this.store.updateById(id, product);
+
+        const notification = new Notification(NotificationType.SUCCESS, 'Product updated');
+        this.notify(notification);
       },
       this.handleError
     );
   }
 
-  deleteById = (id: number): void => {
+  deleteById = (id: number, callback: () => void): void => {
     this.store.setAction(ProductActions.DELETE);
 
-    this.service.delete(id).subscribe(
+    this.service.delete(id)
+    .pipe(
+      finalize(() => callback())
+    )
+    .subscribe(
       () => {
         this.store.setStatus(Status.SUCCESS);
         this.store.deleteById(id);
+
+        const notification = new Notification(NotificationType.SUCCESS, 'Product deleted', PriorityType.HIGH);
+        this.notify(notification);
       },
       this.handleError
     );
@@ -82,11 +95,15 @@ export class ProductsFacade {
     this.store.setErrors(error);
 
     const notification = new Notification(NotificationType.ERROR, error.message);
-    this.appStore.setNotification(notification);
+    this.notify(notification);
   }
 
   getAction$ = () => this.store.getAction$();
 
   getStatus$ = () => this.store.getStatus$();
+
+  notify(notification: Notification) {
+    this.appStore.setNotification(notification);
+  }
 
 }

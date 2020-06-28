@@ -9,13 +9,14 @@ import { Observable } from 'rxjs';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Status } from 'rxjs-reactive-state';
 import { switchMap, finalize } from 'rxjs/operators';
+import { callbackify } from 'util';
 
 @Injectable()
 export class ProductsFacade {
 
   constructor(private store: ProductStore, private service: ProductService, private appStore: AppStore) { }
 
-  add = (product: Product) => {
+  add = (product: Product, callback: () => void) => {
     this.store.setAction(ProductActions.CREATE);
 
     this.service.add(product)
@@ -24,12 +25,13 @@ export class ProductsFacade {
         (id) => {
           return this.service.getById(id);
         }
-      )
+      ),
+      finalize(() => callback())
     )
     .subscribe(
       (response: Product) => {
         this.store.setStatus(Status.SUCCESS);
-        this.store.add(response);
+        this.store.addOne(response);
 
         const notification = new Notification(NotificationType.SUCCESS, 'Product added');
         this.notify(notification);
@@ -87,6 +89,8 @@ export class ProductsFacade {
   setSelected = (id: number): void => this.store.setSelected(id);
 
   getAll$ = (): Observable<Product[]> => this.store.getAll$();
+
+  searchByName$ = (partialName: string): Observable<Product[]> => this.store.searchByName$(partialName);
 
   getSelected$ = (): Observable<Product> => this.store.getSelected$();
 

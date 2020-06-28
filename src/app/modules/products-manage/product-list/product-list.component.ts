@@ -3,8 +3,10 @@ import { Status } from 'rxjs-reactive-state';
 import { ProductsFacade } from './../../../shared/facades/products.facade';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Product } from 'src/app/shared/entities';
-import { Observable, forkJoin, combineLatest } from 'rxjs';
+import { Observable, forkJoin, combineLatest, Subject } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -14,11 +16,19 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class ProductListComponent implements OnInit {
 
-  listOfData: Observable<Product[]> = this.facade.getAll$();
+  listOfData = new Subject<Product[]>();
+  listOfData$ = this.listOfData.asObservable();
+
+  tempListOfData: Observable<Product[]>;
 
   gettingData: boolean;
 
-  constructor(private facade: ProductsFacade, private message: NzMessageService) { }
+  showCreateModal = false;
+
+  searchField = new FormControl('');
+  searchForm: FormGroup = this.fb.group({search: this.searchField});
+
+  constructor(private facade: ProductsFacade, private message: NzMessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     combineLatest([this.facade.getAction$(), this.facade.getStatus$()]).subscribe(
@@ -30,6 +40,17 @@ export class ProductListComponent implements OnInit {
     );
 
     this.setEntities();
+
+    this.facade.getAll$().subscribe(
+      list => this.listOfData.next(list)
+    );
+
+    this.searchField.valueChanges.pipe(
+      debounceTime(300),
+      switchMap(text => this.facade.searchByName$(text))
+    ).subscribe(
+      list => this.listOfData.next(list)
+    );
   }
 
   setEntities() {

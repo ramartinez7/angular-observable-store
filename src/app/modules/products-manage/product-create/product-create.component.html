@@ -1,1 +1,30 @@
-<p>product-create works!</p>
+<nz-modal nzWidth="350" [(nzVisible)]="isVisible" nzTitle="Create Product" (nzOnCancel)="close()" (nzOnOk)="handleOk()" [nzOkLoading]="creating">
+  <form nz-form [formGroup]="createProductForm" class="create-product-form" (ngSubmit)="handleOk()">
+    <nz-form-item>
+      <nz-form-label nzSpan="24">Name</nz-form-label>
+      <nz-form-control nzErrorTip="Required">
+        <nz-input-group>
+          <input type="text" nz-input formControlName="Name" placeholder="Name" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="24">Detail</nz-form-label>
+      <nz-form-control nzErrorTip="Required">
+        <textarea maxlength="255" formControlName="Detail" nz-input rows="2" placeholder="Detail"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="24">Price</nz-form-label>
+      <nz-form-control nzErrorTip="Required">
+        <input type="number" min="1" max="9999999" nz-input formControlName="Price" placeholder="Price" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="24">Stock</nz-form-label>
+      <nz-form-control nzErrorTip="Required">
+        <input type="number" min="1" max="999" nz-input formControlName="Stock" placeholder="Stock" />
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

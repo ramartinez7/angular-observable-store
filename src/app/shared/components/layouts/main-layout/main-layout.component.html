@@ -1,9 +1,12 @@
-<nz-layout>
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div class="logo"></div>
+<nz-layout class="layout">
+  <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
+    <div class="logo">
+      <div class="inner">
+        App
+      </div>
+    </div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTitle]="isCollapsed ? 'Products' : ''"
-        [routerLink]="'/products'" nzMatchRouter>
+      <li nz-menu-item nzMatchRouter routerLink='/products/list'>
         <i nz-icon nzType="insert-row-above"></i>
         <span>Products</span>
       </li>
@@ -11,17 +14,16 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"></i>
+      <div class="header-logo"><div class="inner"><i nz-icon nzType="chrome" nzTheme="outline" style="font-size: 24px;"></i></div></div>
+      
     </nz-header>
     <nz-content>
-      <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
-      
       <div class="inner-content">
+        <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
+        <br>
         <router-outlet></router-outlet>
       </div>
-
     </nz-content>
-    <nz-footer>ramartinez7 / angular-observable-store{{ isProd ? '' : '-dev' }}</nz-footer>
+    <nz-footer>ramartinez7 / angular-observable-store{{ isProd ? '-prod' : '-dev' }}</nz-footer>
   </nz-layout>
 </nz-layout>

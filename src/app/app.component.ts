@@ -27,8 +27,10 @@ export class AppComponent implements OnInit  {
       n => {
         if (n) {
           if (n.priority === PriorityType.NORMAL) {
+            this.messageService.remove();
             this.messageService.create(n.type, n.content);
           } else {
+            this.notificationService.remove();
             this.notificationService.create(n.type, n.title, n.content, {nzDuration: 5000});
           }
         }

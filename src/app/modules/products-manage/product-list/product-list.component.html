@@ -1,8 +1,22 @@
-<button nz-button nzType="primary" routerLink="/products/create">Create</button>
-<button nz-button nzType="default" [nzLoading]="gettingData" (click)="setEntities()"><i nz-icon nzType="reload"></i>Reload</button>
+<h3 nz-typography>Products</h3>
+
+<button nz-button nzType="primary" (click)="showCreateModal=true">Create</button>
+<button nz-button nzType="default" [nzLoading]="gettingData" (click)="setEntities()"><i nz-icon nzType="sync"></i>Reload</button>
+
 <br>
+
+<form [formGroup]="searchForm">
+  <nz-input-group [nzSuffix]="suffixIconSearch">
+    <input formControlName="search" type="text" nz-input placeholder="search by name" />
+    <ng-template #suffixIconSearch>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+  </nz-input-group>
+</form>
+
 <br>
-<nz-table #basicTable [nzData]="listOfData | async" [nzPageSize]="5" [nzLoading]="gettingData">
+
+<nz-table nzSize="middle" #basicTable [nzData]="listOfData$ | async" [nzPageSize]="5" [nzLoading]="gettingData" nzShowPagination nzShowSizeChanger>
   <thead>
     <tr>
       <th>Name</th>
@@ -16,7 +30,7 @@
     <tr *ngFor="let data of basicTable.data">
       <td>{{ data.Name }}</td>
       <td class="priority-1">{{ !data.Detail || (data.Detail && data.Detail === '') ? 'No detail' : data.Detail }}</td>
-      <td class="priority-3">{{ data.Price }}</td>
+      <td class="priority-3">{{ data.Price | currency }}</td>
       <td class="priority-2">{{ data.Stock }}</td>
       <td>
         <a>Update</a>
@@ -32,3 +46,5 @@
     </tr>
   </tbody>
 </nz-table>
+
+<app-product-create [isVisible]="showCreateModal" (closed)="showCreateModal=false"></app-product-create>

@@ -1,3 +1,4 @@
+import { switchMap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/entities';
 import { ProductState } from './../states/product.state';
@@ -19,7 +20,7 @@ export class ProductStore extends EntityStore<ProductState, Product> {
     this.logActions = environment.logState;
   }
 
-  add = (product: Product): void => this.add(product);
+  addOne = (product: Product): void => this.add(product);
 
   updateById = (id: number, product: Product): void => this.update(p => p.Id === id, product);
 
@@ -37,6 +38,14 @@ export class ProductStore extends EntityStore<ProductState, Product> {
   }
 
   getAll$ = (): Observable<Product[]> => this.listen$('entities');
+
+  searchByName$ = (partialName: string): Observable<Product[]> => {
+    return this.getAll$().pipe(
+      map(p => {
+        return p.filter( f => f.Name.trim().toLowerCase().includes(partialName.trim().toLowerCase()));
+      })
+    );
+  }
 
   getSelected$ = (): Observable<Product> => this.listen$(state => state.selected);
 

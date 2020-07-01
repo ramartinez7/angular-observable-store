@@ -1,16 +1,18 @@
 import { AppStore } from './shared/stores/app.store';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
 import { PriorityType } from './shared/models/notification.model';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit  {
+export class AppComponent implements OnInit, OnDestroy  {
   title = 'angular-observable-store';
+  subscriptions = new Array<Subscription>();
 
   constructor(private appStore: AppStore, private messageService: NzMessageService, private notificationService: NzNotificationService) {}
 
@@ -18,8 +20,12 @@ export class AppComponent implements OnInit  {
     this.listenNotifications();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
   listenNotifications() {
-    this.appStore.getNotifications$()
+    this.subscriptions.push(this.appStore.getNotifications$()
     .pipe(
       distinctUntilChanged()
     )
@@ -35,6 +41,6 @@ export class AppComponent implements OnInit  {
           }
         }
       }
-    );
+    ));
   }
 }

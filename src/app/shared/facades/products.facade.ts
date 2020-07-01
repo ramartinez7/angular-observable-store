@@ -6,10 +6,9 @@ import { Product } from './../entities/product.entity';
 import { ProductStore } from './../stores/product.store';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Status } from 'rxjs-reactive-state';
 import { switchMap, finalize } from 'rxjs/operators';
-import { callbackify } from 'util';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ProductsFacade {
@@ -40,10 +39,14 @@ export class ProductsFacade {
     );
   }
 
-  updateById = (id: number, product: Product): void => {
+  updateById = (id: number, product: Product, callback: () => void): void => {
     this.store.setAction(ProductActions.UPDATE);
 
-    this.service.update(id, product).subscribe(
+    this.service.update(id, product)
+    .pipe(
+      finalize(() => callback())
+    )
+    .subscribe(
       () => {
         this.store.setStatus(Status.SUCCESS);
         this.store.updateById(id, product);
@@ -110,4 +113,7 @@ export class ProductsFacade {
     this.appStore.setNotification(notification);
   }
 
+  mapper() {
+    return this.store.listen$(state => _.filter(state.entities, p => p.Price <= 200));
+  }
 }

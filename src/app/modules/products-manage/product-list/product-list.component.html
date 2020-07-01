@@ -33,7 +33,7 @@
       <td class="priority-3">{{ data.Price | currency }}</td>
       <td class="priority-2">{{ data.Stock }}</td>
       <td>
-        <a>Update</a>
+        <a (click)="showUpdateModal=true; selectProduct(data.Id)">Update</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a nz-popconfirm
         nzOkType='danger'
@@ -48,3 +48,4 @@
 </nz-table>
 
 <app-product-create [isVisible]="showCreateModal" (closed)="showCreateModal=false"></app-product-create>
+<app-product-update [isVisible]="showUpdateModal" (closed)="showUpdateModal=false"></app-product-update>

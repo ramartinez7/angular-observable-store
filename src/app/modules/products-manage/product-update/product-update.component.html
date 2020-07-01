@@ -1,5 +1,5 @@
-<nz-modal [nzOkText]="'Create'" [nzCancelDisabled]="creating" [nzClosable]="!creating" nzWidth="350" [(nzVisible)]="isVisible" nzTitle="Create Product" (nzOnCancel)="close()" (nzOnOk)="handleOk()" [nzOkLoading]="creating">
-  <form nz-form [formGroup]="createProductForm" class="create-product-form" (ngSubmit)="handleOk()">
+<nz-modal [nzOkText]="'Update'" [nzCancelDisabled]="updating" [nzClosable]="!updating" nzWidth="350" [(nzVisible)]="isVisible" nzTitle="Update Product" (nzOnCancel)="close()" (nzOnOk)="handleOk()" [nzOkLoading]="updating">
+  <form nz-form [formGroup]="updateProductForm" class="update-product-form" (ngSubmit)="handleOk()">
     <nz-form-item>
       <nz-form-label nzSpan="24">Name</nz-form-label>
       <nz-form-control nzErrorTip="Required">

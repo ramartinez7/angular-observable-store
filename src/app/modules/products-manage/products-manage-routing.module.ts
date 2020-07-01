@@ -5,11 +5,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 
 
 const routes: Routes = [
-  {
-    path: '', pathMatch: 'full', redirectTo: 'list'
-  },
-  { path: 'list', component: ProductListComponent, data: { breadcrumb: 'List' } },
-  { path: 'create', component: ProductCreateComponent, data: { breadcrumb: 'Create' }},
+  { path: '', component: ProductListComponent }
 ];
 
 @NgModule({

@@ -8,10 +8,11 @@ import { ProductsManageRoutingModule } from './products-manage-routing.module';
 import { ProductListComponent } from './product-list/product-list.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductCreateComponent } from './product-create/product-create.component';
+import { ProductUpdateComponent } from './product-update/product-update.component';
 
 
 @NgModule({
-  declarations: [ProductListComponent, ProductCreateComponent],
+  declarations: [ProductListComponent, ProductCreateComponent, ProductUpdateComponent],
   imports: [
     CommonModule,
     ProductsManageRoutingModule,

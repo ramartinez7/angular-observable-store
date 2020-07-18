@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ProductsFacade } from 'src/app/shared/facades/products.facade';
 import { take } from 'rxjs/operators';
@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-product-update',
   templateUrl: './product-update.component.html',
-  styleUrls: ['./product-update.component.scss']
+  styleUrls: ['./product-update.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductUpdateComponent implements OnInit, OnDestroy {
 

@@ -54,10 +54,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     ).subscribe(
       list => this.listOfData.next(list)
     ));
-
-    this.subscriptions.push(this.facade.mapper().subscribe(
-      res => console.log(res)
-    ));
   }
 
   ngOnDestroy() {
